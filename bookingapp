@@ -1,10 +1,10 @@
-<html>
+html>
     <body>
         <form onsubmit="saveToLocalStorage(event)">
     <label> Name</label>
-    <input type="text" name="username" required/>
+    <input id='username' type="text" name="username" required/>
     <label>EmailId</label>
-    <input type="email" name="emailId" required/>
+    <input id='email' type="email" name="emailId" required/>
     <button>Submit</button>
     </form>
     <ul id='ListOfUsers'></ul>
@@ -22,10 +22,10 @@
             axios.post("https://crudcrud.com/api/84c6f391babb414caca4f6925211c5e5/data",Obj)
             .then((respone)=>{
                 showNewUserOnScreen(respone.data)
-
                 console.log(respone)
             })
             .catch((err)=>{
+                document.body.innerHTML =document.body.innerHTML +"<h4>something went wrong</h4>"
                 console.log(err)
             })
 
@@ -33,13 +33,14 @@
             //showNewUserOnScreen(Obj)
         }
 
-        window.addEventListener("DomContentLoaded", ()=>{
+        window.addEventListener("DOMContentLoaded", ()=>{
             const localStorageObj =localStorage;
-            const localstorageKeys = Object.keys(localStorageObj);
+            const localstoragekeys = Object.keys(localStorageObj);
 
             for(var i=0;i<localstoragekeys.length; i++){
+                const key=localstoragekeys[i]
                 const userdetailsString =localStorageObj[key];
-                const userDetailsObj=JSON.parse(userDetailsString);
+                const userDetailsObj=JSON.parse(userdetailsString);
                 showNewUserOnScreen(userDetailsObj)
             }
         })
@@ -49,7 +50,7 @@
                 removeUserFromScreen(user.email)
             }
             const parentNode=document.getElementById('ListOfUsers');
-            const childHTML=`<li id=${user.email}> ${user.name} - ${user.email}><button onclick=deleteUser(${user.email})>delete</li>`
+            const childHTML=`<li id=${user.email}> ${user.name} - ${user.email}<button onclick=deleteUser(${user.email})>delete</li>`
                         
             parentNode.innerHTML=parentNode.innerHTML + childHTML;
         }
@@ -69,3 +70,4 @@
     </script>
     </body>
 </html>
+    
